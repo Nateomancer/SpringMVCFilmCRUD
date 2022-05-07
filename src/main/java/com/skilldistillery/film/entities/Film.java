@@ -8,7 +8,7 @@ public class Film {
 	private int id;
 	private String title;
 	private String description;
-	private short releaseYear;
+	private int releaseYear;
 	private int languageId;
 	private String language;
 	private int rentalDuration;
@@ -23,7 +23,7 @@ public class Film {
 		super();
 	}
 
-	public Film(int id, String title, String description, short releaseYear, int languageId, String language, int rentalDuration,
+	public Film(int id, String title, String description, int releaseYear, int languageId, String language, int rentalDuration,
 			double rate, int length, double replacementCost, String rating, String features, List<Actor> cast) throws SQLException {
 		super();
 		this.id = id;
@@ -65,7 +65,7 @@ public class Film {
 		this.description = description;
 	}
 
-	public short getReleaseYear() {
+	public int getReleaseYear() {
 		return releaseYear;
 	}
 
@@ -155,7 +155,7 @@ public class Film {
 	}
 	return film;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(cast, description, features, id, language, languageId, length, rate, rating, releaseYear,
@@ -180,5 +180,7 @@ public class Film {
 				&& Double.doubleToLongBits(replacementCost) == Double.doubleToLongBits(other.replacementCost)
 				&& Objects.equals(title, other.title);
 	}
+	
+
 
 }

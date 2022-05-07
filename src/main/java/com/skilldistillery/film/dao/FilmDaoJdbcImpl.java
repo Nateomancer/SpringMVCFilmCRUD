@@ -140,10 +140,75 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 	}
 
 	@Override
-	public List<Film> getFilmsByKeyword(String keyword) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public List<Film> getFilmsByKeyword(String keyword) throws SQLException {
+//			Film matchedFilm = null;
+			List<Film> filmResults = new ArrayList<>();
+//			List<Actor> filmCast = new ArrayList<>();
+			Film film = null;
+			int counter = 0;
+
+			// Makes connection to database
+			String sql = "SELECT * FROM film JOIN language ON film.language_id = language.id"
+					+ "WHERE description LIKE ? OR title LIKE ?";
+
+			Connection conn = DriverManager.getConnection(url, user, pass);
+
+			PreparedStatement stmt = conn.prepareStatement(sql);
+
+			stmt.setString(1, "%" + keyword + "%");
+			stmt.setString(2, "%" + keyword + "%");
+			ResultSet rs = stmt.executeQuery();
+
+			while (rs.next()) {
+
+				counter++;
+				// get film and all attributes by filmId
+				int id = rs.getInt("id");
+				String title = rs.getString("title");
+				String description = rs.getString("description");
+				Integer releaseYear = rs.getInt("release_year");
+				int languageId = rs.getInt("language_id");
+				String language = rs.getString("name");
+				int rentalDuration = rs.getInt("rental_duration");
+				double rentalRate = rs.getDouble("rental_rate");
+				Integer length = rs.getInt("length");
+				double replacementCost = rs.getDouble("replacement_cost");
+				String rating = rs.getString("rating");
+				String specialfeatures = rs.getString("special_features");
+
+				// create list of actors for each film
+				List<Actor> filmCast = new ArrayList<>();
+				filmCast.addAll((getActorsByFilmId(id)));
+
+//				// get the language for each film
+//				getLanguage(id);
+
+				film = new Film(id, title, description, releaseYear, languageId, language, rentalDuration, rentalRate, length,
+						replacementCost, rating, specialfeatures, filmCast);
+//				this.id = id;
+//				this.title = title;
+//				this.description = description;
+//				this.releaseYear = releaseYear;
+//				this.languageId = languageId;
+//				this.language = language;
+//				this.rentalDuration = rentalDuration;
+//				this.rate = rate;
+//				this.length = length;
+//				this.replacementCost = replacementCost;
+//				this.rating = rating;
+//				this.features = features;
+//				this.cast = cast;
+
+			}
+
+			rs.close();
+			stmt.close();
+			conn.close();
+
+			return filmResults;
+		}
+//		return null;
+//	}
 
 	@Override
 	public Film createFilm() {
