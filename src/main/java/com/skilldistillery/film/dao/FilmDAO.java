@@ -19,16 +19,16 @@ public interface FilmDAO {
 	 */
 //	public Actor findActorById(int actorId);
 
-	public List<Actor> findActorsByFilmId(int filmId);
+	public List<Actor> getActorsByFilmId(int filmId);
 	
-	public String findCategoryByFilmId(int filmId);
+	public String getCategoryByFilmId(int filmId);
 
 	/*
 	 * User Story 5
 	 * A user can search for films by keyword/pattern in title or description. 
 	 * From the resulting list of films, the user can choose to update or delete a record.
 	 */
-	List<Film> findFilmsByKeyword(String keyword);
+	List<Film> getFilmsByKeyword(String keyword);
 	
 	/*
 	 * User Story 2
