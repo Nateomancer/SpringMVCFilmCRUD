@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -216,10 +217,45 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 //	}
 
 	@Override
-	public Film createFilm() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public Film createFilm(Film film) {
+		
+		Connection conn = null;
+		  try {
+		    conn = DriverManager.getConnection(url, user, pass);
+		    conn.setAutoCommit(false); // START TRANSACTION
+		    String sql = "INSERT INTO film (title, description, release_year, language_id, length, special_features) "
+		                     + " VALUES (?,?,?,?,?,?)";
+		    PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+		    stmt.setString(1, film.getTitle());
+		    stmt.setString(2, film.getDescription());
+		    stmt.setInt(3, film.getReleaseYear());
+		    stmt.setInt(4, film.getLanguageId());
+		    stmt.setInt(5, film.getLength());
+		    stmt.setString(6, film.getFeatures());
+		    
+		    int updateCount = stmt.executeUpdate();
+		    if (updateCount == 1) {
+		      ResultSet keys = stmt.getGeneratedKeys();
+		      if (keys.next()) {
+		        int newFilmId = keys.getInt(1);
+		        film.setId(newFilmId);
+		      }
+		    } else {
+		      film = null;
+		    }
+		    conn.commit(); // COMMIT TRANSACTION
+		  } catch (SQLException sqle) {
+		    sqle.printStackTrace();
+		    if (conn != null) {
+		      try { conn.rollback(); }
+		      catch (SQLException sqle2) {
+		        System.err.println("Error trying to rollback");
+		      }
+		    }
+		    throw new RuntimeException("Error inserting actor " + film);
+		  }
+		  return film;
+		}
 
 	@Override
 	public void deleteFilm() {
@@ -231,6 +267,12 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 	public void editFilm() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public Film createFilm() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

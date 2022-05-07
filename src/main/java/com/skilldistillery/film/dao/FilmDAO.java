@@ -61,4 +61,6 @@ public interface FilmDAO {
 	 * If the update fails, the user is informed of this.
 	 */
 	public void editFilm();
+
+	Film createFilm(Film film);
 }

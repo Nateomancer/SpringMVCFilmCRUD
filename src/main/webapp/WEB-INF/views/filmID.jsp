@@ -24,8 +24,8 @@
 				<td>${film.id }</td>
 				<td>${film.title }</td>
 				<td>${film.description }</td>
-				<td>${film.description }</td>
 				<td>${film.language }</td>
+				<td>${film.category }</td>
 			</tr>
 
 	</table>

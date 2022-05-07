@@ -31,6 +31,14 @@ public class FilmController {
 		return mv;
 
 	}
+	@RequestMapping(path = {"createFilm.do" })
+	public ModelAndView createFilm() {
+		ModelAndView mv = new ModelAndView();
+
+		mv.setViewName("WEB-INF/views/createFilm.jsp");
+		return mv;
+
+	}
 		
 	@RequestMapping(path="filmID.do", params="id", method=RequestMethod.GET)
 	  public ModelAndView getFilmById(@RequestParam("id")int id) {
