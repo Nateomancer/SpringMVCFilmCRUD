@@ -45,7 +45,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 	}
 
 	@Override
-	public Film findFilmById(int filmId) {
+	public Film getFilmById(int filmId) {
 		Film film = null;
 		try {
 			Connection conn = DriverManager.getConnection(FilmDaoJdbcImpl.getUrl(),
