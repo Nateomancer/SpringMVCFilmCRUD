@@ -29,7 +29,7 @@ public interface FilmDAO {
 	 * A user can search for films by keyword/pattern in title or description. 
 	 * From the resulting list of films, the user can choose to update or delete a record.
 	 */
-	List<Film> getFilmsByKeyword(String keyword) throws SQLException;
+	public List<Film> getFilmsByKeyword(String keyword) throws SQLException;
 	
 	/*
 	 * User Story 2

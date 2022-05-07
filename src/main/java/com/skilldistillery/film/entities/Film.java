@@ -18,13 +18,14 @@ public class Film {
 	private String rating;
 	private String features;
 	private List<Actor> cast;
-
+	private String category;
+	
 	public Film() {
 		super();
 	}
 
 	public Film(int id, String title, String description, int releaseYear, int languageId, String language, int rentalDuration,
-			double rate, int length, double replacementCost, String rating, String features, List<Actor> cast) throws SQLException {
+			double rate, int length, double replacementCost, String rating, String features, List<Actor> cast, String category) throws SQLException {
 		super();
 		this.id = id;
 		this.title = title;
@@ -39,6 +40,7 @@ public class Film {
 		this.rating = rating;
 		this.features = features;
 		this.cast = cast;
+		this.category = category;
 	}
 
 	public int getId() {
@@ -143,6 +145,18 @@ public class Film {
 
 	public void setCast(List<Actor> cast) {
 		this.cast = cast;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public void setReleaseYear(int releaseYear) {
+		this.releaseYear = releaseYear;
 	}
 
 	@Override

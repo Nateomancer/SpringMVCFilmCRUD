@@ -12,7 +12,7 @@
 <!-- Find film by id -->
 <div>
 	<h3>Search for film with film ID</h3>
-	<form action="filmInfo.do" method="get">
+	<form action="filmID.do" method="get">
 	<label for="id">Enter film ID:</label>
 	<input type="number" name="id" id="id" min="1" max="4000">
 	<input type="submit" value="Search">
@@ -21,7 +21,7 @@
 <!-- Find by keyword -->
 <div>
 	<h3>Search for film by keyword</h3>
-	<form action="filmInfo.do" method="get">
+	<form action="filmList.do" method="get">
 	<label for="keyword">Enter keyword:</label>
 	<input type="text" name="keyword" id="keyword">
 	<input type="submit" value="Search">

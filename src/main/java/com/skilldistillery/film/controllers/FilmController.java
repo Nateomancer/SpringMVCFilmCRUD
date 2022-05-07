@@ -1,5 +1,6 @@
 package com.skilldistillery.film.controllers;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,14 +32,23 @@ public class FilmController {
 
 	}
 		
-	@RequestMapping(path="filmInfo.do", params="id", method=RequestMethod.GET)
+	@RequestMapping(path="filmID.do", params="id", method=RequestMethod.GET)
 	  public ModelAndView getFilmById(@RequestParam("id")int id) {
 	    ModelAndView mv = new ModelAndView();
 	    Film film = dao.getFilmById(id);
 	    mv.addObject("film", film);
-	    mv.setViewName("WEB-INF/views/filmInfo.jsp");
+	    mv.setViewName("WEB-INF/views/filmID.jsp");
 	    return mv;
 	  }
+	
 
+	@RequestMapping(path="filmList.do", params="keyword", method=RequestMethod.GET)
+	  public ModelAndView getFilmsByKeyword(@RequestParam("keyword")String keyword) throws SQLException {
+	    ModelAndView mv = new ModelAndView();
+	    List<Film> filmResults = dao.getFilmsByKeyword(keyword);
+	    	mv.addObject("filmResults", filmResults);
+	    mv.setViewName("WEB-INF/views/filmList.jsp");
+	    return mv;
+	  }
 //		return "WEB-INF/views/home.jsp";
 }

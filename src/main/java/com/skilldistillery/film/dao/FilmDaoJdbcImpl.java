@@ -75,6 +75,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 				film.setRating(filmResult.getString("rating"));
 				film.setFeatures(filmResult.getString("special_features"));
 				film.setCast(getActorsByFilmId(filmId));
+				film.setCategory(getCategoryByFilmId(filmId));
 			}
 
 			filmResult.close();
@@ -146,17 +147,21 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 //			List<Actor> filmCast = new ArrayList<>();
 			Film film = null;
 			int counter = 0;
+			String search = keyword;
 
 			// Makes connection to database
-			String sql = "SELECT * FROM film JOIN language ON film.language_id = language.id"
-					+ "WHERE description LIKE ? OR title LIKE ?";
+			String sql = "SELECT *\n"
+					+ "FROM film JOIN language ON film.language_id = language.id\n"
+					+ "JOIN film_category ON film.id = film_category.film_id\n"
+					+ "JOIN category ON film_category.category_id = category.id\n"
+					+ "WHERE film.title LIKE ? OR film.description LIKE ?";
 
 			Connection conn = DriverManager.getConnection(url, user, pass);
 
 			PreparedStatement stmt = conn.prepareStatement(sql);
 
-			stmt.setString(1, "%" + keyword + "%");
-			stmt.setString(2, "%" + keyword + "%");
+			stmt.setString(1, "%" + search + "%");
+			stmt.setString(2, "%" + search + "%");
 			ResultSet rs = stmt.executeQuery();
 
 			while (rs.next()) {
@@ -168,14 +173,14 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 				String description = rs.getString("description");
 				Integer releaseYear = rs.getInt("release_year");
 				int languageId = rs.getInt("language_id");
-				String language = rs.getString("name");
+				String language = rs.getString("language.name");
 				int rentalDuration = rs.getInt("rental_duration");
 				double rentalRate = rs.getDouble("rental_rate");
 				Integer length = rs.getInt("length");
 				double replacementCost = rs.getDouble("replacement_cost");
 				String rating = rs.getString("rating");
 				String specialfeatures = rs.getString("special_features");
-
+				String category = rs.getString("category.name");
 				// create list of actors for each film
 				List<Actor> filmCast = new ArrayList<>();
 				filmCast.addAll((getActorsByFilmId(id)));
@@ -184,7 +189,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 //				getLanguage(id);
 
 				film = new Film(id, title, description, releaseYear, languageId, language, rentalDuration, rentalRate, length,
-						replacementCost, rating, specialfeatures, filmCast);
+						replacementCost, rating, specialfeatures, filmCast, category);
 //				this.id = id;
 //				this.title = title;
 //				this.description = description;
@@ -198,7 +203,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 //				this.rating = rating;
 //				this.features = features;
 //				this.cast = cast;
-
+				filmResults.add(film);
 			}
 
 			rs.close();
