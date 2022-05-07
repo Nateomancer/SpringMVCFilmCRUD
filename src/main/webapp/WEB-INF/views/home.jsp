@@ -29,7 +29,7 @@
 </div>
 
 <br>
-<a href="createFilm.do">Create a New Film</a>
+<a href="newFilm.do">Create a New Film</a>
 <!-- <input action="createFilm.do" method="get" type="submit" name="addNewFilm" id="addNewFilm" value="Create New Film" /> -->
 
 </body>

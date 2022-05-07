@@ -10,12 +10,9 @@
 </head>
 <body>
 	<p>
-	<table>
-		<thead>
-		</thead>
 		<div>
 			<h1>Add new film</h1>
-			<form action="newFilm.do" method="get">
+<form action="createFilm.do" method="POST">
 <fieldset>
 				<label for="title">Enter film title:</label>
 				 <input type="text" name="title" id="title" min="1" max="50"> 
@@ -23,6 +20,21 @@
 				<label for="description">Enter film description:</label>
 				 <input type="text" name="description" id="description" min="1" max="500"> 
 		<br>
+				<label for="releaseYear">Enter film release year:</label>		
+<input type="number" name="releaseYear" id="releaseYear" min="1960" max="2022">
+
+<br>
+				<label for="language">Film rating:</label>
+
+<select name="rating" id=""rating"">
+    <option value="">--Please choose an option--</option>
+    <option value="G">G</option>
+    <option value="PG">PG</option>
+    <option value="PG13">PG-13</option>
+    <option value="R">R</option>
+    <option value="NC17">NC-17</option>
+</select> 
+<br>
 				<label for="language">Choose a language:</label>
 
 <select name="language" id="language">
@@ -35,32 +47,40 @@
     <option value="6">German</option>
 </select> 
 <br>
-    <legend>Choose your special features:</legend>
-    <div>
-      <input type="checkbox" id="trailers" name="features"
-             checked>
-      <label for="trailers">Trailers</label>
-    </div>
+<label for="category">Choose a film category:</label>
 
-    <div>
+<select name="category" id="category">
+    <option value="">--Please choose an option--</option>
+    <option value="action">Action</option>
+    <option value="animation">Animation</option>
+    <option value="children">Children</option>
+    <option value="classics">Classics</option>
+    <option value="comedy">Comedy</option>
+    <option value="documentary">Documentary</option>
+    <option value="drama">Drama</option>
+    <option value="family">Family</option>
+    <option value="foreign">Foreign</option>
+    <option value="games">Games</option>
+    <option value="horror">Horror</option>
+    <option value="music">Music</option>
+    <option value="new">New</option>
+    <option value="sci-fi">Sci-Fi</option>
+    <option value="travel">Travel</option>
+</select> 
+<br>
+    <label for="features">Choose your special features:</label>>
+      <input type="checkbox" id="trailers" name="features">
+      <label for="trailers">Trailers</label>
       <input type="checkbox" id="commentaries" name="features">
       <label for="commentaries">Commentaries</label>
-    </div>
-    <div>
       <input type="checkbox" id="deleted_scenes" name="features">
       <label for="deleted_scenes">Deleted scenes</label>
-    </div>
-    <div>
       <input type="checkbox" id="behind_the_scenes" name="features">
       <label for="behind_the_scenes">Behind the Scenes</label>
-    </div>
-</fieldset>
+      <br>
+      <input type="submit" value="Submit">
+      </fieldset>
 			</form>
-			
-		</div>
-
-			<input type="submit" value="Submit">
-	</table>
 	</p>
 </body>
 </html>

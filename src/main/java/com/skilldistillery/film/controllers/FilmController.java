@@ -5,12 +5,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.skilldistillery.film.dao.FilmDAO;
+import com.skilldistillery.film.entities.Actor;
 import com.skilldistillery.film.entities.Film;
 
 @Controller
@@ -31,15 +33,42 @@ public class FilmController {
 		return mv;
 
 	}
-	@RequestMapping(path = {"createFilm.do" })
-	public ModelAndView createFilm() {
+	
+	@RequestMapping(path = {"newFilm.do" })
+	public ModelAndView newFilm () {
 		ModelAndView mv = new ModelAndView();
 
-		mv.setViewName("WEB-INF/views/createFilm.jsp");
+		mv.setViewName("WEB-INF/views/newFilm.jsp");
 		return mv;
 
 	}
+	
+	@RequestMapping(path = "createFilm.do", method = RequestMethod.POST)
+	public void createFilm(
+	  @RequestParam("title") String title, 
+	  @RequestParam("description") String description, 
+	  @RequestParam("language") int language,
+	  @RequestParam("features") String features,
+	  @RequestParam("releaseYear") int releaseYear,
+	  @RequestParam("rating") String rating,
+	  @RequestParam("category") String category) {
+	    Film film = new Film();
+	    film.setTitle(title);
+		film.setDescription(description);
+		film.setReleaseYear(releaseYear);
+		film.setLanguageId(language);
+		film.setRentalDuration(3);
+		film.setRate(4.99);
+		film.setLength(120);
+		film.setReplacementCost(19.99);
+		film.setFeatures(features);
+		film.setCategory(category);	
 		
+		Film filmForWeb = dao.createFilm(film);
+		
+		getFilmById(filmForWeb.getId());
+	}	
+	
 	@RequestMapping(path="filmID.do", params="id", method=RequestMethod.GET)
 	  public ModelAndView getFilmById(@RequestParam("id")int id) {
 	    ModelAndView mv = new ModelAndView();
