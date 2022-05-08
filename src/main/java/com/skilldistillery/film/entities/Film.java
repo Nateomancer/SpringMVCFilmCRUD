@@ -46,13 +46,14 @@ public class Film {
 		this.category = category;
 	}
 
-	public Film(String title, String description, int releaseYear, int languageId, String rating, String category) {
+	public Film(String title, String description, int releaseYear, int length, int languageId, String rating, String category) {
 		super();
 		this.title = title;
 		this.description = description;
 		this.releaseYear = releaseYear;
 		this.languageId = languageId;
 		this.rating = rating;
+		this.length = length;
 		// this.features = features;
 		this.category = category;
 	}

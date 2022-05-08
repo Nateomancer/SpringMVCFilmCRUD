@@ -24,6 +24,9 @@
 <input type="number" name="releaseYear" id="releaseYear" min="1960" max="2022">
 
 <br>
+<label for="length">Enter film length:</label>		
+<input type="number" name="length" id="length" min="80" max="240">
+<br>
 				<label for="language">Film rating:</label>
 
 <select name="rating" id=""rating"">
