@@ -44,9 +44,9 @@ public class FilmController {
 
 	@RequestMapping(path = "createFilm.do", method = RequestMethod.POST)
 	public ModelAndView createFilm(@RequestParam("title") String title, @RequestParam("description") String description,
-			@RequestParam("rentalDuration") int rentalDuration, @RequestParam("rate") double rentalRate, 
-			@RequestParam("length") int length, @RequestParam("replacementCost") double replacementCost, 
-			@RequestParam("releaseYear") int releaseYear, @RequestParam("rating") String rating, 
+			@RequestParam("rentalDuration") int rentalDuration, @RequestParam("rate") double rentalRate,
+			@RequestParam("length") int length, @RequestParam("replacementCost") double replacementCost,
+			@RequestParam("releaseYear") int releaseYear, @RequestParam("rating") String rating,
 
 			RedirectAttributes redir, @RequestParam("features") String... features) {
 		Film film = new Film();
@@ -70,11 +70,13 @@ public class FilmController {
 		}
 		film.setFeatures(sb.toString());
 
-
 		Film filmForWeb = dao.createFilm(film);
-
-		redir.addFlashAttribute("film", filmForWeb);
-		mv.setViewName("redirect:displayFilm.do");
+		if (filmForWeb != null) {
+			redir.addFlashAttribute("film", filmForWeb);
+			mv.setViewName("redirect:displayFilm.do");
+		} else {
+			mv.setViewName("WEB-INF/views/deleteDenied.jsp");
+		}
 
 		return mv;
 	}
@@ -86,39 +88,44 @@ public class FilmController {
 		mv.setViewName("WEB-INF/views/filmID.jsp");
 		return mv;
 	}
-	
-	@RequestMapping(path = "deleteFilm.do", method= RequestMethod.POST)
+
+	@RequestMapping(path = "deleteFilm.do", method = RequestMethod.POST)
 	public ModelAndView deleteFilm(@RequestParam("deleteId") String id) {
 		ModelAndView mv = new ModelAndView();
 		int deleteId = Integer.parseInt(id);
 		boolean success = dao.deleteFilm(deleteId);
 		System.out.println(success);
-		if(success == true) {
-		mv.addObject("deletedId", deleteId);
-		mv.setViewName("WEB-INF/views/deleteConfirmed.jsp");
-		}else {
+		if (success == true) {
+			mv.addObject("deletedId", deleteId);
+			mv.setViewName("WEB-INF/views/deleteConfirmed.jsp");
+		} else {
 			mv.setViewName("WEB-INF/views/deleteDenied.jsp");
 		}
 		return mv;
-		}
-	
-	@RequestMapping(path = "startEditFilm.do", method= RequestMethod.POST)
+	}
+
+	@RequestMapping(path = "startEditFilm.do", method = RequestMethod.POST)
 	public ModelAndView editFilm(@RequestParam("editId") String id) {
 		ModelAndView mv = new ModelAndView();
 		int editId = Integer.parseInt(id);
 		Film film = dao.getFilmById(editId);
-		mv.addObject("film", film);
-		mv.setViewName("WEB-INF/views/editFilm.jsp");
-		return mv;
+		if (film != null) {
+			mv.addObject("film", film);
+			mv.setViewName("WEB-INF/views/editFilm.jsp");
+		} else {
+			mv.setViewName("WEB-INF/views/deleteDenied.jsp");
 		}
-	
+		return mv;
+	}
+
 	@RequestMapping(path = "editFilm.do", method = RequestMethod.POST)
-	public ModelAndView editFilm(@RequestParam("id") int id, @RequestParam("title") String title, @RequestParam("description") String description,
-			//@RequestParam("language") int language,
-			@RequestParam("releaseYear") int releaseYear, //@RequestParam("rating") String rating,
+	public ModelAndView editFilm(@RequestParam("id") int id, @RequestParam("title") String title,
+			@RequestParam("description") String description,
+			// @RequestParam("language") int language,
+			@RequestParam("releaseYear") int releaseYear, // @RequestParam("rating") String rating,
 //			@RequestParam("category") String category,
 
-			RedirectAttributes redir) //@RequestParam("features") String... features) 
+			RedirectAttributes redir) // @RequestParam("features") String... features)
 	{
 		Film film = dao.getFilmById(id);
 		ModelAndView mv = new ModelAndView();
@@ -143,7 +150,6 @@ public class FilmController {
 //		}
 //		film.setFeatures(sb.toString());
 
-
 		Film filmForWeb = dao.editFilm(film);
 
 		redir.addFlashAttribute("film", filmForWeb);
@@ -151,14 +157,16 @@ public class FilmController {
 
 		return mv;
 	}
-	
 
 	@RequestMapping(path = "filmID.do", params = "id", method = RequestMethod.GET)
 	public ModelAndView getFilmById(@RequestParam("id") int id) {
 		ModelAndView mv = new ModelAndView();
 		Film film = dao.getFilmById(id);
+		if(film != null) {
 		mv.addObject("film", film);
 		mv.setViewName("WEB-INF/views/filmID.jsp");
+		}else {mv.setViewName("WEB-INF/views/filmNotFound.jsp");
+		}
 		return mv;
 	}
 
@@ -166,8 +174,11 @@ public class FilmController {
 	public ModelAndView getFilmsByKeyword(@RequestParam("keyword") String keyword) throws SQLException {
 		ModelAndView mv = new ModelAndView();
 		List<Film> filmResults = dao.getFilmsByKeyword(keyword);
-		mv.addObject("filmResults", filmResults);
-		mv.setViewName("WEB-INF/views/filmList.jsp");
+		if(!filmResults.isEmpty()) {
+			mv.addObject("filmResults", filmResults);
+			mv.setViewName("WEB-INF/views/filmList.jsp");
+			}else {mv.setViewName("WEB-INF/views/filmNotFound.jsp");
+			}
 		return mv;
 	}
 //		return "WEB-INF/views/home.jsp";

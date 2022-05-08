@@ -6,10 +6,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel=“stylesheet” href=“style.css”>
-<title>Film Deleted</title>
+<title>Success</title>
 </head>
 <body>
-	<h1>Successfully deleted film!</h1>
+	<h1>Operation Successful!</h1>
 	<br>
 	<a href="home.do">Return to main page</a>
 </body>

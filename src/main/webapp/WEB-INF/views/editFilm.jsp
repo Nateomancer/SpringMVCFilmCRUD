@@ -51,27 +51,6 @@
     <option value="6">German</option>
 </select> 
 <br>
-<label for="category">Choose a film category:</label>
-
-<select name="category" value="${film.category }" id="category">
-    <option value="">--Please choose an option--</option>
-    <option value="action">Action</option>
-    <option value="animation">Animation</option>
-    <option value="children">Children</option>
-    <option value="classics">Classics</option>
-    <option value="comedy">Comedy</option>
-    <option value="documentary">Documentary</option>
-    <option value="drama">Drama</option>
-    <option value="family">Family</option>
-    <option value="foreign">Foreign</option>
-    <option value="games">Games</option>
-    <option value="horror">Horror</option>
-    <option value="music">Music</option>
-    <option value="new">New</option>
-    <option value="sci-fi">Sci-Fi</option>
-    <option value="travel">Travel</option>
-</select> 
-<br>
     <label for="features">Choose your special features:</label>>
       <label for="features">Choose your special features:</label>>
       <input type="checkbox" id="trailers" name="features" value="Trailers">

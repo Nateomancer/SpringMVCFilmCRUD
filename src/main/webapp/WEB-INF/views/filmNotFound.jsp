@@ -6,10 +6,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel=“stylesheet” href=“style.css”>
-<title>Unsuccessful</title>
+<title>Film Not Found</title>
 </head>
 <body>
-	<h1>Operation failed to complete!</h1>
+	<h1>No film found matching that criteria!</h1>
 	<br>
 	<a href="home.do">Return to main page</a>
 </body>
