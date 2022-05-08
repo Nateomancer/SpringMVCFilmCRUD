@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel=“stylesheet” href=“style.css”>
-<title>Create Film</title>
+<title>Film Deleted</title>
 </head>
 <body>
 	<h1>Successfully deleted film!</h1>

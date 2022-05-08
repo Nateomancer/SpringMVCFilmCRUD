@@ -52,9 +52,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 		try {
 			Connection conn = DriverManager.getConnection(FilmDaoJdbcImpl.getUrl(), FilmDaoJdbcImpl.getUser(),
 					FilmDaoJdbcImpl.getPass());
-			String sql = "SELECT film.id, title, description, release_year, language_id, language.name, rental_duration, ";
-			sql += " rental_rate, length, replacement_cost, rating, special_features " + " FROM film"
-					+ " JOIN language ON film.language_id = language.id " + " WHERE film.id = ?";
+			String sql = "SELECT * FROM film WHERE film.id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, filmId);
 			ResultSet filmResult = stmt.executeQuery();
@@ -73,19 +71,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 				film.setReplacementCost(filmResult.getDouble("replacement_cost"));
 				film.setRating(filmResult.getString("rating"));
 				film.setFeatures(filmResult.getString("special_features"));
-				try {
-					film.setCast(getActorsByFilmId(filmId));
-				} catch (Exception e) {
-					List<Actor> noCast = new ArrayList<>();
-					film.setCast(noCast);
-					System.out.println("Could not get cast for film #" + filmResult.getInt("id"));
-				}
-				try {
-					film.setLanguage(filmResult.getString("name"));
-				} catch (Exception e) {
-					film.setLanguage("");
-				}
-				film.setCategory(getCategoryByFilmId(filmId));
+				
 			}
 
 			filmResult.close();
@@ -193,8 +179,8 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 			List<Actor> filmCast = new ArrayList<>();
 			filmCast.addAll((getActorsByFilmId(id)));
 
-			film = new Film(id, title, description, releaseYear, languageId, language, rentalDuration, rentalRate,
-					length, replacementCost, rating, specialfeatures, filmCast, category);
+			film = new Film(id, title, description, releaseYear, languageId, rentalDuration, rentalRate,
+					length, replacementCost, rating, specialfeatures);
 
 			filmResults.add(film);
 		}
@@ -282,7 +268,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 					return false;
 				}
 			}
-			throw new RuntimeException("Error deleting Film " + "#" + id);
+//			throw new RuntimeException("Error deleting Film " + "#" + id);
 		}
 		return false;
 	}

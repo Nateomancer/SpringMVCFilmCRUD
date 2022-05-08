@@ -44,10 +44,9 @@ public class FilmController {
 
 	@RequestMapping(path = "createFilm.do", method = RequestMethod.POST)
 	public ModelAndView createFilm(@RequestParam("title") String title, @RequestParam("description") String description,
-			@RequestParam("language") int language,
-
-			@RequestParam("releaseYear") int releaseYear, @RequestParam("rating") String rating,
-			@RequestParam("category") String category,
+			@RequestParam("rentalDuration") int rentalDuration, @RequestParam("rate") double rentalRate, 
+			@RequestParam("length") int length, @RequestParam("replacementCost") double replacementCost, 
+			@RequestParam("releaseYear") int releaseYear, @RequestParam("rating") String rating, 
 
 			RedirectAttributes redir, @RequestParam("features") String... features) {
 		Film film = new Film();
@@ -56,8 +55,6 @@ public class FilmController {
 		film.setTitle(title);
 		film.setDescription(description);
 		film.setReleaseYear(releaseYear);
-		film.setLanguageId(language);
-		film.setCategory(category);
 		film.setRating(rating);
 
 		StringBuilder sb = new StringBuilder();
@@ -94,9 +91,14 @@ public class FilmController {
 	public ModelAndView deleteFilm(@RequestParam("deleteId") String id) {
 		ModelAndView mv = new ModelAndView();
 		int deleteId = Integer.parseInt(id);
-		dao.deleteFilm(deleteId);
+		boolean success = dao.deleteFilm(deleteId);
+		System.out.println(success);
+		if(success == true) {
 		mv.addObject("deletedId", deleteId);
 		mv.setViewName("WEB-INF/views/deleteConfirmed.jsp");
+		}else {
+			mv.setViewName("WEB-INF/views/deleteDenied.jsp");
+		}
 		return mv;
 		}
 	

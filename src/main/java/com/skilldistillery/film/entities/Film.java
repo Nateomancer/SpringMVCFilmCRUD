@@ -12,41 +12,41 @@ public class Film {
 	private String description;
 	private int releaseYear;
 	private int languageId;
-	private String language;
+//	private String language;
 	private int rentalDuration;
 	private double rate;
 	private int length;
 	private double replacementCost;
 	private String rating;
 	private String features;
-	private List<Actor> cast;
-	private String category;
+//	private List<Actor> cast;
+//	private String category;
 
 	public Film() {
 		super();
 	}
 
-	public Film(int id, String title, String description, int releaseYear, int languageId, String language,
-			int rentalDuration, double rate, int length, double replacementCost, String rating, String features,
-			List<Actor> cast, String category) throws SQLException {
+	public Film(int id, String title, String description, int releaseYear, int languageId, /*String language,*/
+			int rentalDuration, double rate, int length, double replacementCost, String rating, String features
+			/*List<Actor> cast, String category*/) throws SQLException {
 		super();
 		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.releaseYear = releaseYear;
 		this.languageId = languageId;
-		this.language = language;
+//		this.language = language;
 		this.rentalDuration = rentalDuration;
 		this.rate = rate;
 		this.length = length;
 		this.replacementCost = replacementCost;
 		this.rating = rating;
 		this.features = features;
-		this.cast = cast;
-		this.category = category;
+//		this.cast = cast;
+//		this.category = category;
 	}
 
-	public Film(String title, String description, int releaseYear, int length, int languageId, String rating, String category) {
+	public Film(String title, String description, int releaseYear, int length, int languageId, String rating/*, String category*/) {
 		super();
 		this.title = title;
 		this.description = description;
@@ -55,7 +55,7 @@ public class Film {
 		this.rating = rating;
 		this.length = length;
 		// this.features = features;
-		this.category = category;
+//		this.category = category;
 	}
 
 	public int getId() {
@@ -98,13 +98,13 @@ public class Film {
 		this.languageId = languageId;
 	}
 
-	public String getLanguage() {
-		return language;
-	}
-
-	public void setLanguage(String language) {
-		this.language = language;
-	}
+//	public String getLanguage() {
+//		return language;
+//	}
+//
+//	public void setLanguage(String language) {
+//		this.language = language;
+//	}
 
 	public int getRentalDuration() {
 		return rentalDuration;
@@ -154,51 +154,38 @@ public class Film {
 		this.features = features;
 	}
 
-	public List<Actor> getCast() {
-		return cast;
-	}
-
-	public void setCast(List<Actor> cast) {
-		this.cast = cast;
-	}
-
-	public String getCategory() {
-		return category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
-	}
+//	public List<Actor> getCast() {
+//		return cast;
+//	}
+//
+//	public void setCast(List<Actor> cast) {
+//		this.cast = cast;
+//	}
+//
+//	public String getCategory() {
+//		return category;
+//	}
+//
+//	public void setCategory(String category) {
+//		this.category = category;
+//	}
 
 	public void setReleaseYear(int releaseYear) {
 		this.releaseYear = releaseYear;
 	}
 
-//	@Override
-//	public String toString() {
-//		String film = "Film [id=" + id + ", title=" + title + ", description=" + description + ", releaseYear="
-//				+ releaseYear + ", languageId=" + languageId + ", language=" + language + ", rentalDuration="
-//				+ rentalDuration + ", rate=" + rate + ", length=" + length + ", replacementCost=" + replacementCost
-//				+ ", rating=" + rating + ", features=" + features;
-//		for (Actor actor : cast) {
-//			film += "\n\t-- " + actor.getFirstName() + " " + actor.getLastName();
-//		}
-//		return film;
-//	}
-//	
-
 	@Override
 	public String toString() {
 		return "Film [id=" + id + ", title=" + title + ", description=" + description + ", releaseYear=" + releaseYear
-				+ ", languageId=" + languageId + ", language=" + language + ", rentalDuration=" + rentalDuration
-				+ ", rate=" + rate + ", length=" + length + ", replacementCost=" + replacementCost + ", rating="
-				+ rating + ", features=" + features + ", cast=" + cast + ", category=" + category + "]";
+				+ ", languageId=" + languageId + ", rentalDuration=" + rentalDuration + ", rate=" + rate + ", length="
+				+ length + ", replacementCost=" + replacementCost + ", rating=" + rating + ", features=" + features
+				+ "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(cast, description, features, id, language, languageId, length, rate, rating, releaseYear,
-				rentalDuration, replacementCost, title);
+		return Objects.hash(description, features, id, languageId, length, rate, rating, releaseYear, rentalDuration,
+				replacementCost, title);
 	}
 
 	@Override
@@ -210,14 +197,13 @@ public class Film {
 		if (getClass() != obj.getClass())
 			return false;
 		Film other = (Film) obj;
-		return Objects.equals(cast, other.cast) && Objects.equals(description, other.description)
-				&& Objects.equals(features, other.features) && id == other.id
-				&& Objects.equals(language, other.language) && languageId == other.languageId && length == other.length
+		return Objects.equals(description, other.description) && Objects.equals(features, other.features)
+				&& id == other.id && languageId == other.languageId && length == other.length
 				&& Double.doubleToLongBits(rate) == Double.doubleToLongBits(other.rate)
 				&& Objects.equals(rating, other.rating) && releaseYear == other.releaseYear
 				&& rentalDuration == other.rentalDuration
 				&& Double.doubleToLongBits(replacementCost) == Double.doubleToLongBits(other.replacementCost)
 				&& Objects.equals(title, other.title);
 	}
-
+	
 }
