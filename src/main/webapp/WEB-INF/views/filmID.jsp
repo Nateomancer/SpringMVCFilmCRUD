@@ -23,6 +23,7 @@
 				<th scope="col">Replacement Cost</th>
 				<th scope="col">Rating</th>
 				<th scope="col">Special Features</th>
+				<th scope="col">Category</th>
 			</tr>
 		</thead>
 		<tr>
@@ -36,6 +37,8 @@
 			<td>${film.replacementCost }</td>
 			<td>${film.rating }</td>
 			<td>${film.features }</td>
+			<td>${category }</td>
+			
 
 			<td><form action="deleteFilm.do" method="POST">
 				<input type="text" hidden="true" value="${film.id }" name="deleteId" /> 
@@ -49,5 +52,13 @@
 
 	</table>
 	</p>
+	<h3>Cast</h3>
+	   <ul>
+		    	<c:forEach var="actor" items="${cast }">
+		    	<li>${actor.firstName } ${actor.lastName }</li>
+		    	</c:forEach>
+		    </ul>
+		    <br>
+	<a href="home.do">Return to main page</a>
 </body>
 </html>

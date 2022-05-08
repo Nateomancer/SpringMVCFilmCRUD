@@ -71,7 +71,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 				film.setReplacementCost(filmResult.getDouble("replacement_cost"));
 				film.setRating(filmResult.getString("rating"));
 				film.setFeatures(filmResult.getString("special_features"));
-				
+
 			}
 
 			filmResult.close();
@@ -91,7 +91,8 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 			Connection conn = DriverManager.getConnection(FilmDaoJdbcImpl.getUrl(), FilmDaoJdbcImpl.getUser(),
 					FilmDaoJdbcImpl.getPass());
 			String sql = "SELECT id, first_name, last_name"
-					+ " FROM actor JOIN film_actor ON actor.id = film_actor.actor_id " + " WHERE film_actor.film_id = ?";
+					+ " FROM actor JOIN film_actor ON actor.id = film_actor.actor_id "
+					+ " WHERE film_actor.film_id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, filmId);
 			ResultSet rs = stmt.executeQuery();
@@ -110,7 +111,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 		}
 		return actors;
 	}
-	
+
 	// TODO: This method was added by Matt @ 0935 on 7MAY to support User Story #6
 	@Override
 	public String getCategoryByFilmId(int filmId) {
@@ -179,8 +180,8 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 			List<Actor> filmCast = new ArrayList<>();
 			filmCast.addAll((getActorsByFilmId(id)));
 
-			film = new Film(id, title, description, releaseYear, languageId, rentalDuration, rentalRate,
-					length, replacementCost, rating, specialfeatures);
+			film = new Film(id, title, description, releaseYear, languageId, rentalDuration, rentalRate, length,
+					replacementCost, rating, specialfeatures);
 
 			filmResults.add(film);
 		}
@@ -194,7 +195,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 
 	@Override
 	public Film createFilm(Film film) {
-
+		System.out.println(film);
 		Connection conn = null;
 		try {
 			conn = DriverManager.getConnection(url, user, pass);
@@ -251,7 +252,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 
 			int updateCount = stmt.executeUpdate();
 			if (updateCount == 1) {
-				if (id>1000) {
+				if (id > 1000) {
 					conn.commit(); // COMMIT TRANSACTION
 					return true;
 				}
@@ -281,10 +282,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 			conn = DriverManager.getConnection(url, user, pass);
 			conn.setAutoCommit(false); // START TRANSACTION
 
-			String sql = "UPDATE film "
-					+ "  SET title = ?, "
-					+ "  description = ?, "
-					+ "  release_year = ?, "
+			String sql = "UPDATE film " + "  SET title = ?, " + "  description = ?, " + "  release_year = ?, "
 //					+ "  language_id = ?, "
 //					+ "  rating = ?, "
 					+ "  length = ? "
@@ -326,6 +324,5 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 		}
 		return film;
 	}
-
 
 }

@@ -12,50 +12,44 @@ public class Film {
 	private String description;
 	private int releaseYear;
 	private int languageId;
-//	private String language;
 	private int rentalDuration;
 	private double rate;
 	private int length;
 	private double replacementCost;
 	private String rating;
 	private String features;
-//	private List<Actor> cast;
-//	private String category;
 
 	public Film() {
 		super();
 	}
 
-	public Film(int id, String title, String description, int releaseYear, int languageId, /*String language,*/
-			int rentalDuration, double rate, int length, double replacementCost, String rating, String features
-			/*List<Actor> cast, String category*/) throws SQLException {
+	public Film(int id, String title, String description, int releaseYear, int languageId,
+			int rentalDuration, double rate, int length, double replacementCost, String rating, String features) throws SQLException {
 		super();
 		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.releaseYear = releaseYear;
 		this.languageId = languageId;
-//		this.language = language;
 		this.rentalDuration = rentalDuration;
 		this.rate = rate;
 		this.length = length;
 		this.replacementCost = replacementCost;
 		this.rating = rating;
 		this.features = features;
-//		this.cast = cast;
-//		this.category = category;
 	}
 
-	public Film(String title, String description, int releaseYear, int length, int languageId, String rating/*, String category*/) {
+	public Film(String title, String description, int releaseYear, int languageId, int rentalDuration, double rate, int length, String rating, String features) {
 		super();
 		this.title = title;
 		this.description = description;
 		this.releaseYear = releaseYear;
 		this.languageId = languageId;
-		this.rating = rating;
+		this.rentalDuration = rentalDuration;
+		this.rate = rate;
 		this.length = length;
-		// this.features = features;
-//		this.category = category;
+		this.rating = rating;
+		this.features = features;
 	}
 
 	public int getId() {
@@ -98,13 +92,6 @@ public class Film {
 		this.languageId = languageId;
 	}
 
-//	public String getLanguage() {
-//		return language;
-//	}
-//
-//	public void setLanguage(String language) {
-//		this.language = language;
-//	}
 
 	public int getRentalDuration() {
 		return rentalDuration;
@@ -154,21 +141,6 @@ public class Film {
 		this.features = features;
 	}
 
-//	public List<Actor> getCast() {
-//		return cast;
-//	}
-//
-//	public void setCast(List<Actor> cast) {
-//		this.cast = cast;
-//	}
-//
-//	public String getCategory() {
-//		return category;
-//	}
-//
-//	public void setCategory(String category) {
-//		this.category = category;
-//	}
 
 	public void setReleaseYear(int releaseYear) {
 		this.releaseYear = releaseYear;

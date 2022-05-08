@@ -27,9 +27,21 @@
 <label for="length">Enter film length:</label>		
 <input type="number" name="length" id="length" min="80" max="240">
 <br>
-				<label for="language">Film rating:</label>
 
-<select name="rating" id=""rating"">
+<label for="rate">Enter rental rate:</label>		
+<input type="number" name="rate" id="rate" step="0.01" value="4.99">
+<br>
+
+<label for="replacementCost">Enter disc replacement cost:</label>		
+<input type="number" name="replacementCost" id="replacementCost" step="0.01" value="19.99">
+<br>
+
+<label for="rentalDuration">Enter rental duration:</label>		
+<input type="number" name="rentalDuration" id="rentalDuration" value="3" min="1" max="7">
+<br>
+				<label for="rating">Film rating:</label>
+
+<select name="rating" id="rating">
     <option value="">--Please choose an option--</option>
     <option value="G">G</option>
     <option value="PG">PG</option>
@@ -86,5 +98,7 @@
       </fieldset>
 			</form>
 	</p>
+	<br>
+	<a href="home.do">Return to main page</a>
 </body>
 </html>

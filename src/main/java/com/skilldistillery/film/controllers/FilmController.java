@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.skilldistillery.film.dao.FilmDAO;
+import com.skilldistillery.film.entities.Actor;
 import com.skilldistillery.film.entities.Film;
 
 @Controller
@@ -47,6 +48,7 @@ public class FilmController {
 			@RequestParam("rentalDuration") int rentalDuration, @RequestParam("rate") double rentalRate,
 			@RequestParam("length") int length, @RequestParam("replacementCost") double replacementCost,
 			@RequestParam("releaseYear") int releaseYear, @RequestParam("rating") String rating,
+			@RequestParam("language") int languageId,
 
 			RedirectAttributes redir, @RequestParam("features") String... features) {
 		Film film = new Film();
@@ -56,6 +58,11 @@ public class FilmController {
 		film.setDescription(description);
 		film.setReleaseYear(releaseYear);
 		film.setRating(rating);
+		film.setLanguageId(languageId);
+		film.setRentalDuration(rentalDuration);
+		film.setRate(rentalRate);
+		film.setLength(length);
+		film.setReplacementCost(replacementCost);
 
 		StringBuilder sb = new StringBuilder();
 		if (features != null && features.length > 0) {
@@ -162,10 +169,15 @@ public class FilmController {
 	public ModelAndView getFilmById(@RequestParam("id") int id) {
 		ModelAndView mv = new ModelAndView();
 		Film film = dao.getFilmById(id);
-		if(film != null) {
-		mv.addObject("film", film);
-		mv.setViewName("WEB-INF/views/filmID.jsp");
-		}else {mv.setViewName("WEB-INF/views/filmNotFound.jsp");
+		List<Actor> cast = dao.getActorsByFilmId(id);
+		String category = dao.getCategoryByFilmId(id);
+		if (film != null) {
+			mv.addObject("film", film);
+			mv.addObject("cast", cast);
+			mv.addObject("category", category);
+			mv.setViewName("WEB-INF/views/filmID.jsp");
+		} else {
+			mv.setViewName("WEB-INF/views/filmNotFound.jsp");
 		}
 		return mv;
 	}
@@ -174,11 +186,12 @@ public class FilmController {
 	public ModelAndView getFilmsByKeyword(@RequestParam("keyword") String keyword) throws SQLException {
 		ModelAndView mv = new ModelAndView();
 		List<Film> filmResults = dao.getFilmsByKeyword(keyword);
-		if(!filmResults.isEmpty()) {
+		if (!filmResults.isEmpty()) {
 			mv.addObject("filmResults", filmResults);
 			mv.setViewName("WEB-INF/views/filmList.jsp");
-			}else {mv.setViewName("WEB-INF/views/filmNotFound.jsp");
-			}
+		} else {
+			mv.setViewName("WEB-INF/views/filmNotFound.jsp");
+		}
 		return mv;
 	}
 //		return "WEB-INF/views/home.jsp";
