@@ -58,7 +58,6 @@ public class FilmController {
 		film.setDescription(description);
 		film.setReleaseYear(releaseYear);
 		film.setLanguageId(language);
-		// film.setFeatures(features);
 		film.setCategory(category);
 		film.setRating(rating);
 
@@ -71,26 +70,12 @@ public class FilmController {
 				} else {
 					sb.append(features[i]);
 				}
-
 			}
-
 		}
-
 		film.setFeatures(sb.toString());
 
-	//	System.out.println(film.getFeatures());
-
-//		 
-//	    stmt.setString(1, film.getTitle());
-//	    stmt.setString(2, film.getDescription());
-//	    stmt.setInt(3, film.getReleaseYear());
-//	    stmt.setInt(4, film.getLanguageId());
-//	    stmt.setString(5, film.getRating());
-//	    stmt.setString(6, film.getFeatures());
 
 		Film filmForWeb = dao.createFilm(film);
-//		System.out.println("FilmForWeb Id = " + filmForWeb.getId());
-//		System.out.println(film.toString());
 
 		redir.addFlashAttribute("film", filmForWeb);
 		mv.setViewName("redirect:displayFilm.do");
@@ -104,8 +89,16 @@ public class FilmController {
 
 		mv.setViewName("WEB-INF/views/filmID.jsp");
 		return mv;
-
 	}
+	
+	@RequestMapping(path = "deleteFilm.do", method= RequestMethod.POST)
+	public ModelAndView deleteFilm(@RequestParam("deleteId") int id) {
+		ModelAndView mv = new ModelAndView();
+		dao.deleteFilm(id);
+		mv.addObject("deletedId", id);
+		mv.setViewName("WEB-INF/views/deleteConfirmed.jsp");
+		return mv;
+		}
 
 	@RequestMapping(path = "filmID.do", params = "id", method = RequestMethod.GET)
 	public ModelAndView getFilmById(@RequestParam("id") int id) {

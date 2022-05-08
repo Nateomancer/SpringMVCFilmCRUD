@@ -124,8 +124,8 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 		try {
 			Connection conn = DriverManager.getConnection(FilmDaoJdbcImpl.getUrl(), FilmDaoJdbcImpl.getUser(),
 					FilmDaoJdbcImpl.getPass());
-			String sql = "SELECT id, name FROM category " +
-					     "JOIN film_category ON category.id = film_category.category_id WHERE film_id = ?";
+			String sql = "SELECT id, name FROM category "
+					+ "JOIN film_category ON category.id = film_category.category_id WHERE film_id = ?";
 			PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, filmId);
 			ResultSet rs = stmt.executeQuery();
@@ -144,122 +144,138 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 	@Override
 	public List<Film> getFilmsByKeyword(String keyword) throws SQLException {
 //			Film matchedFilm = null;
-			List<Film> filmResults = new ArrayList<>();
+		List<Film> filmResults = new ArrayList<>();
 //			List<Actor> filmCast = new ArrayList<>();
-			Film film = null;
-			int counter = 0;
-			String search = keyword;
+		Film film = null;
+		int counter = 0;
+		String search = keyword;
 
-			// Makes connection to database
-			String sql = "SELECT *\n"
-					+ "FROM film JOIN language ON film.language_id = language.id\n"
-					+ "JOIN film_category ON film.id = film_category.film_id\n"
-					+ "JOIN category ON film_category.category_id = category.id\n"
-					+ "WHERE film.title LIKE ? OR film.description LIKE ?";
+		// Makes connection to database
+		String sql = "SELECT *\n" + "FROM film JOIN language ON film.language_id = language.id\n"
+				+ "JOIN film_category ON film.id = film_category.film_id\n"
+				+ "JOIN category ON film_category.category_id = category.id\n"
+				+ "WHERE film.title LIKE ? OR film.description LIKE ?";
 
-			Connection conn = DriverManager.getConnection(url, user, pass);
+		Connection conn = DriverManager.getConnection(url, user, pass);
 
-			PreparedStatement stmt = conn.prepareStatement(sql);
+		PreparedStatement stmt = conn.prepareStatement(sql);
 
-			stmt.setString(1, "%" + search + "%");
-			stmt.setString(2, "%" + search + "%");
-			ResultSet rs = stmt.executeQuery();
+		stmt.setString(1, "%" + search + "%");
+		stmt.setString(2, "%" + search + "%");
+		ResultSet rs = stmt.executeQuery();
 
-			while (rs.next()) {
+		while (rs.next()) {
 
-				counter++;
-				// get film and all attributes by filmId
-				int id = rs.getInt("id");
-				String title = rs.getString("title");
-				String description = rs.getString("description");
-				Integer releaseYear = rs.getInt("release_year");
-				int languageId = rs.getInt("language_id");
-				String language = rs.getString("language.name");
-				int rentalDuration = rs.getInt("rental_duration");
-				double rentalRate = rs.getDouble("rental_rate");
-				Integer length = rs.getInt("length");
-				double replacementCost = rs.getDouble("replacement_cost");
-				String rating = rs.getString("rating");
-				String specialfeatures = rs.getString("special_features");
-				String category = rs.getString("category.name");
-				// create list of actors for each film
-				List<Actor> filmCast = new ArrayList<>();
-				filmCast.addAll((getActorsByFilmId(id)));
+			counter++;
+			// get film and all attributes by filmId
+			int id = rs.getInt("id");
+			String title = rs.getString("title");
+			String description = rs.getString("description");
+			Integer releaseYear = rs.getInt("release_year");
+			int languageId = rs.getInt("language_id");
+			String language = rs.getString("language.name");
+			int rentalDuration = rs.getInt("rental_duration");
+			double rentalRate = rs.getDouble("rental_rate");
+			Integer length = rs.getInt("length");
+			double replacementCost = rs.getDouble("replacement_cost");
+			String rating = rs.getString("rating");
+			String specialfeatures = rs.getString("special_features");
+			String category = rs.getString("category.name");
+			// create list of actors for each film
+			List<Actor> filmCast = new ArrayList<>();
+			filmCast.addAll((getActorsByFilmId(id)));
 
+			film = new Film(id, title, description, releaseYear, languageId, language, rentalDuration, rentalRate,
+					length, replacementCost, rating, specialfeatures, filmCast, category);
 
-
-				film = new Film(id, title, description, releaseYear, languageId, language, rentalDuration, rentalRate, length,
-						replacementCost, rating, specialfeatures, filmCast, category);
-
-				filmResults.add(film);
-			}
-
-			rs.close();
-			stmt.close();
-			conn.close();
-
-			return filmResults;
+			filmResults.add(film);
 		}
-//		return null;
-//	}
+
+		rs.close();
+		stmt.close();
+		conn.close();
+
+		return filmResults;
+	}
 
 	@Override
 	public Film createFilm(Film film) {
-		
+
 		Connection conn = null;
-		  try {
-		    conn = DriverManager.getConnection(url, user, pass);
-		    conn.setAutoCommit(false); // START TRANSACTION
-		    
-		    
-//		    public Film(String title, String description, int releaseYear, int languageId, String rating, String features,
-//					String category) {
-		    
-		    
-		    String sql = "INSERT INTO film (title, description, release_year, language_id, rating, special_features) "
-		                     + " VALUES (?,?,?,?,?,(?))";
-		    PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-		   
-		    
-		    
-		    
-		    
-		    
-		    stmt.setString(1, film.getTitle());
-		    stmt.setString(2, film.getDescription());
-		    stmt.setInt(3, film.getReleaseYear());
-		    stmt.setInt(4, film.getLanguageId());
-		    stmt.setString(5, film.getRating());
-		    stmt.setString(6, film.getFeatures());
-		    
-		    int updateCount = stmt.executeUpdate();
-		    if (updateCount == 1) {
-		      ResultSet keys = stmt.getGeneratedKeys();
-		      if (keys.next()) {
-		        int newFilmId = keys.getInt(1);
-		        film.setId(newFilmId);
-		      }
-		    } else {
-		      film = null;
-		    }
-		    conn.commit(); // COMMIT TRANSACTION
-		  } catch (SQLException sqle) {
-		    sqle.printStackTrace();
-		    if (conn != null) {
-		      try { conn.rollback(); }
-		      catch (SQLException sqle2) {
-		        System.err.println("Error trying to rollback");
-		      }
-		    }
-		    throw new RuntimeException("Error inserting Film " + film);
-		  }
-		  return film;
+		try {
+			conn = DriverManager.getConnection(url, user, pass);
+			conn.setAutoCommit(false); // START TRANSACTION
+
+			String sql = "INSERT INTO film (title, description, release_year, language_id, rating, special_features) "
+					+ " VALUES (?,?,?,?,?,(?))";
+			PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+			stmt.setString(1, film.getTitle());
+			stmt.setString(2, film.getDescription());
+			stmt.setInt(3, film.getReleaseYear());
+			stmt.setInt(4, film.getLanguageId());
+			stmt.setString(5, film.getRating());
+			stmt.setString(6, film.getFeatures());
+
+			int updateCount = stmt.executeUpdate();
+			if (updateCount == 1) {
+				ResultSet keys = stmt.getGeneratedKeys();
+				if (keys.next()) {
+					int newFilmId = keys.getInt(1);
+					film.setId(newFilmId);
+				}
+			} else {
+				film = null;
+			}
+			conn.commit(); // COMMIT TRANSACTION
+		} catch (SQLException sqle) {
+			sqle.printStackTrace();
+			if (conn != null) {
+				try {
+					conn.rollback();
+				} catch (SQLException sqle2) {
+					System.err.println("Error trying to rollback");
+				}
+			}
+			throw new RuntimeException("Error inserting Film " + film);
 		}
+		return film;
+	}
 
 	@Override
-	public void deleteFilm() {
-		// TODO Auto-generated method stub
+	public boolean deleteFilm(int id) {
+		Connection conn = null;
+		try {
+			conn = DriverManager.getConnection(url, user, pass);
+			conn.setAutoCommit(false); // START TRANSACTION
 
+			String sql = "DELETE FROM film WHERE id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+
+			stmt.setInt(1, id);
+
+			int updateCount = stmt.executeUpdate();
+			if (updateCount == 1) {
+				if (id<1001) {
+					conn.commit(); // COMMIT TRANSACTION
+					return true;
+				}
+			} else {
+				return false;
+			}
+		} catch (SQLException sqle) {
+			sqle.printStackTrace();
+			if (conn != null) {
+				try {
+					conn.rollback();
+				} catch (SQLException sqle2) {
+					System.err.println("Error trying to rollback");
+					return false;
+				}
+			}
+//			throw new RuntimeException("Error deleting Film " + "#" + id);
+		}
+		return false;
 	}
 
 	@Override

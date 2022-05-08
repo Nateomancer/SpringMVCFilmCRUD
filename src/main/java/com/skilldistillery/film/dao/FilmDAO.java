@@ -50,7 +50,7 @@ public interface FilmDAO {
 	 * which have child records in various tables. 
 	 * Test your delete functionality using new films you've created via User Story 2.
 	 */
-	public void deleteFilm();
+	public boolean deleteFilm(int x);
 	
 	/*
 	 * User Story 4
