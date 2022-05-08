@@ -69,13 +69,13 @@
 </select> 
 <br>
     <label for="features">Choose your special features:</label>>
-      <input type="checkbox" id="trailers" name="features">
+      <input type="checkbox" id="trailers" name="features" value="Trailers">
       <label for="trailers">Trailers</label>
-      <input type="checkbox" id="commentaries" name="features">
+      <input type="checkbox" id="commentaries" name="features" value="Commentaries">
       <label for="commentaries">Commentaries</label>
-      <input type="checkbox" id="deleted_scenes" name="features">
+      <input type="checkbox" id="deleted_scenes" name="features" value="Deleted Scenes">
       <label for="deleted_scenes">Deleted scenes</label>
-      <input type="checkbox" id="behind_the_scenes" name="features">
+      <input type="checkbox" id="behind_the_scenes" name="features" value="Behind the Scenes">
       <label for="behind_the_scenes">Behind the Scenes</label>
       <br>
       <input type="submit" value="Submit">

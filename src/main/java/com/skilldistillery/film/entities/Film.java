@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
 public class Film {
 	private int id;
 	private String title;
@@ -19,13 +21,14 @@ public class Film {
 	private String features;
 	private List<Actor> cast;
 	private String category;
-	
+
 	public Film() {
 		super();
 	}
 
-	public Film(int id, String title, String description, int releaseYear, int languageId, String language, int rentalDuration,
-			double rate, int length, double replacementCost, String rating, String features, List<Actor> cast, String category) throws SQLException {
+	public Film(int id, String title, String description, int releaseYear, int languageId, String language,
+			int rentalDuration, double rate, int length, double replacementCost, String rating, String features,
+			List<Actor> cast, String category) throws SQLException {
 		super();
 		this.id = id;
 		this.title = title;
@@ -40,6 +43,17 @@ public class Film {
 		this.rating = rating;
 		this.features = features;
 		this.cast = cast;
+		this.category = category;
+	}
+
+	public Film(String title, String description, int releaseYear, int languageId, String rating, String category) {
+		super();
+		this.title = title;
+		this.description = description;
+		this.releaseYear = releaseYear;
+		this.languageId = languageId;
+		this.rating = rating;
+		// this.features = features;
 		this.category = category;
 	}
 
@@ -159,15 +173,25 @@ public class Film {
 		this.releaseYear = releaseYear;
 	}
 
+//	@Override
+//	public String toString() {
+//		String film = "Film [id=" + id + ", title=" + title + ", description=" + description + ", releaseYear="
+//				+ releaseYear + ", languageId=" + languageId + ", language=" + language + ", rentalDuration="
+//				+ rentalDuration + ", rate=" + rate + ", length=" + length + ", replacementCost=" + replacementCost
+//				+ ", rating=" + rating + ", features=" + features;
+//		for (Actor actor : cast) {
+//			film += "\n\t-- " + actor.getFirstName() + " " + actor.getLastName();
+//		}
+//		return film;
+//	}
+//	
+
 	@Override
 	public String toString() {
-	String film = "Film [id=" + id + ", title=" + title + ", description=" + description + ", releaseYear=" + releaseYear
-				+ ", languageId=" + languageId + ", language=" + language + ", rentalDuration=" + rentalDuration + ", rate=" + rate + ", length="
-				+ length + ", replacementCost=" + replacementCost + ", rating=" + rating + ", features=" + features;
-	for (Actor actor : cast) {
-		film += "\n\t-- " + actor.getFirstName() + " " + actor.getLastName();
-	}
-	return film;
+		return "Film [id=" + id + ", title=" + title + ", description=" + description + ", releaseYear=" + releaseYear
+				+ ", languageId=" + languageId + ", language=" + language + ", rentalDuration=" + rentalDuration
+				+ ", rate=" + rate + ", length=" + length + ", replacementCost=" + replacementCost + ", rating="
+				+ rating + ", features=" + features + ", cast=" + cast + ", category=" + category + "]";
 	}
 
 	@Override
@@ -194,7 +218,5 @@ public class Film {
 				&& Double.doubleToLongBits(replacementCost) == Double.doubleToLongBits(other.replacementCost)
 				&& Objects.equals(title, other.title);
 	}
-	
-
 
 }

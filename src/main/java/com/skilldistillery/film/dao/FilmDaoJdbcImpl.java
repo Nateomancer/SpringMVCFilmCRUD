@@ -186,24 +186,11 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 				List<Actor> filmCast = new ArrayList<>();
 				filmCast.addAll((getActorsByFilmId(id)));
 
-//				// get the language for each film
-//				getLanguage(id);
+
 
 				film = new Film(id, title, description, releaseYear, languageId, language, rentalDuration, rentalRate, length,
 						replacementCost, rating, specialfeatures, filmCast, category);
-//				this.id = id;
-//				this.title = title;
-//				this.description = description;
-//				this.releaseYear = releaseYear;
-//				this.languageId = languageId;
-//				this.language = language;
-//				this.rentalDuration = rentalDuration;
-//				this.rate = rate;
-//				this.length = length;
-//				this.replacementCost = replacementCost;
-//				this.rating = rating;
-//				this.features = features;
-//				this.cast = cast;
+
 				filmResults.add(film);
 			}
 
@@ -223,14 +210,26 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 		  try {
 		    conn = DriverManager.getConnection(url, user, pass);
 		    conn.setAutoCommit(false); // START TRANSACTION
-		    String sql = "INSERT INTO film (title, description, release_year, language_id, length, special_features) "
-		                     + " VALUES (?,?,?,?,?,?)";
+		    
+		    
+//		    public Film(String title, String description, int releaseYear, int languageId, String rating, String features,
+//					String category) {
+		    
+		    
+		    String sql = "INSERT INTO film (title, description, release_year, language_id, rating, special_features) "
+		                     + " VALUES (?,?,?,?,?,(?))";
 		    PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+		   
+		    
+		    
+		    
+		    
+		    
 		    stmt.setString(1, film.getTitle());
 		    stmt.setString(2, film.getDescription());
 		    stmt.setInt(3, film.getReleaseYear());
 		    stmt.setInt(4, film.getLanguageId());
-		    stmt.setInt(5, film.getLength());
+		    stmt.setString(5, film.getRating());
 		    stmt.setString(6, film.getFeatures());
 		    
 		    int updateCount = stmt.executeUpdate();
@@ -252,7 +251,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 		        System.err.println("Error trying to rollback");
 		      }
 		    }
-		    throw new RuntimeException("Error inserting actor " + film);
+		    throw new RuntimeException("Error inserting Film " + film);
 		  }
 		  return film;
 		}
