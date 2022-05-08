@@ -39,7 +39,7 @@ public interface FilmDAO {
 	 * which the DAO implementation will save in the database. 
 	 * If the insert fails, the user is informed of this.
 	 */
-	public Film createFilm();
+	public Film createFilm(Film film);
 	
 	/*
 	 * User Story 3
@@ -60,8 +60,7 @@ public interface FilmDAO {
 	 * When they submit the form, that film's record is updated in the database. 
 	 * If the update fails, the user is informed of this.
 	 */
-	public void editFilm();
+	public Film editFilm(Film film);
 
-	Film createFilm(Film film);
 
 }

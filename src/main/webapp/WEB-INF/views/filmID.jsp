@@ -31,6 +31,10 @@
 				<input type="text" hidden="true" value="${film.id }" name="deleteId" /> 
 				<input type="submit" value="Delete">
 				</form></td>
+				<td><form action="startEditFilm.do" method="POST">
+				<input type="text" hidden="true" value="${film.id }" name="editId" /> 
+				<input type="submit" value="Edit">
+				</form></td>
 		</tr>
 
 	</table>

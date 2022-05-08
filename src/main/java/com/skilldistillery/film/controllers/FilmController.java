@@ -99,6 +99,57 @@ public class FilmController {
 		mv.setViewName("WEB-INF/views/deleteConfirmed.jsp");
 		return mv;
 		}
+	
+	@RequestMapping(path = "startEditFilm.do", method= RequestMethod.POST)
+	public ModelAndView editFilm(@RequestParam("editId") String id) {
+		ModelAndView mv = new ModelAndView();
+		int editId = Integer.parseInt(id);
+		Film film = dao.getFilmById(editId);
+		mv.addObject("film", film);
+		mv.setViewName("WEB-INF/views/editFilm.jsp");
+		return mv;
+		}
+	
+	@RequestMapping(path = "editFilm.do", method = RequestMethod.POST)
+	public ModelAndView editFilm(@RequestParam("id") int id, @RequestParam("title") String title, @RequestParam("description") String description,
+			//@RequestParam("language") int language,
+			@RequestParam("releaseYear") int releaseYear, //@RequestParam("rating") String rating,
+//			@RequestParam("category") String category,
+
+			RedirectAttributes redir) //@RequestParam("features") String... features) 
+	{
+		Film film = dao.getFilmById(id);
+		ModelAndView mv = new ModelAndView();
+
+		film.setTitle(title);
+		film.setDescription(description);
+		film.setReleaseYear(releaseYear);
+//		film.setLanguageId(language);
+//		film.setCategory(category);
+//		film.setRating(rating);
+
+//		StringBuilder sb = new StringBuilder();
+//		if (features != null && features.length > 0) {
+//			for (int i = 0; i < features.length; i++) {
+//
+//				if (i < features.length - 1) {
+//					sb.append(features[i] + ",");
+//				} else {
+//					sb.append(features[i]);
+//				}
+//			}
+//		}
+//		film.setFeatures(sb.toString());
+
+
+		Film filmForWeb = dao.editFilm(film);
+
+		redir.addFlashAttribute("film", filmForWeb);
+		mv.setViewName("redirect:displayFilm.do");
+
+		return mv;
+	}
+	
 
 	@RequestMapping(path = "filmID.do", params = "id", method = RequestMethod.GET)
 	public ModelAndView getFilmById(@RequestParam("id") int id) {
