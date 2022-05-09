@@ -146,10 +146,7 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 		String search = keyword;
 
 		// Makes connection to database
-		String sql = "SELECT *\n" + "FROM film JOIN language ON film.language_id = language.id\n"
-				+ "JOIN film_category ON film.id = film_category.film_id\n"
-				+ "JOIN category ON film_category.category_id = category.id\n"
-				+ "WHERE film.title LIKE ? OR film.description LIKE ?";
+		String sql = "SELECT * FROM film WHERE film.title LIKE ? OR film.description LIKE ?";
 
 		Connection conn = DriverManager.getConnection(url, user, pass);
 
@@ -168,14 +165,14 @@ public class FilmDaoJdbcImpl implements FilmDAO {
 			String description = rs.getString("description");
 			Integer releaseYear = rs.getInt("release_year");
 			int languageId = rs.getInt("language_id");
-			String language = rs.getString("language.name");
+//			String language = rs.getString("language.name");
 			int rentalDuration = rs.getInt("rental_duration");
 			double rentalRate = rs.getDouble("rental_rate");
 			Integer length = rs.getInt("length");
 			double replacementCost = rs.getDouble("replacement_cost");
 			String rating = rs.getString("rating");
 			String specialfeatures = rs.getString("special_features");
-			String category = rs.getString("category.name");
+//			String category = rs.getString("category.name");
 			// create list of actors for each film
 			List<Actor> filmCast = new ArrayList<>();
 			filmCast.addAll((getActorsByFilmId(id)));
